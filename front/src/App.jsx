@@ -1,21 +1,18 @@
 import './App.scss';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-// import MainPage from './Pages/MainPage';
-// import Sidebar from './Components/Sidebar';
-// import Calendar from './Components/Calendar';
-// import RightPart from './Components/RightPart';
+import Layout from './Pages/Layout';
 import RegisterPage from './Pages/RegisterPage';
+import SignInPage from './Pages/SignInPage';
 
 function App() {
   return (
     <div className="App">
       <Router>
-        {/* <Sidebar /> */}
         <Routes>
-          {/* <Route path='/' Component={MainPage} /> */}
-          <Route path='/' Component={RegisterPage} />
+          <Route path='*' Component={Layout} />
+          <Route path='/signup' Component={RegisterPage} />
+          <Route path='/signin' Component={SignInPage} />
         </Routes>
-        {/* <RightPart /> */}
       </Router>
     </div>
   );

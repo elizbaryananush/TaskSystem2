@@ -1,26 +1,29 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Error as MongooseError } from 'mongoose';
-import { User } from 'src/schemas/User.schema';
+import { Model } from 'mongoose';
+import { User } from '../schemas/user.schema';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectModel(User.name) private userModel: Model<User>) { }
+  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-    async create(name: string, email: string, password: string): Promise<any> {
-        const hashed_password = await bcrypt.hash(password, 10);
-        try {
-            const user = new this.userModel({ name, email, password: hashed_password })
-            return await user.save();
-        } catch (error) {
-            let massage ;
-            if(error.code === 11000){
-                massage = {code : 500 , massage : 'This email is already in use'};
-            }else{
-                massage = {code : 500 , massage : 'Registration failed'}
-            }
-            return massage;
-        }
+  async create(name: string, email: string, password: string): Promise<any> {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    try {
+      const user = new this.userModel({ name, email, password: hashedPassword });
+      return await user.save();
+    } catch (error) {
+      if (error.code === 11000) {
+        throw new Error('Email already in use');
+      } else {
+        throw new Error('Registration failed');
+      }
     }
+  }
+
+  async findOne(email: string): Promise<User | null> {
+    return this.userModel.findOne({ email }).exec();
+  }
 }
+

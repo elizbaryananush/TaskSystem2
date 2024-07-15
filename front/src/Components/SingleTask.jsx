@@ -26,7 +26,6 @@ function SingleTask({ backgroundColor, header, context, id, status }) {
 
         const data = await response.json();
 
-        console.log(data);
     }
 
     const handleChecking = () => {

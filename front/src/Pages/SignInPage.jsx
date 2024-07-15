@@ -17,8 +17,6 @@ function SignInPage() {
         });
 
         const data = await response.json();
-        console.log(data);
-
 
         if (response.ok) {
             localStorage.setItem('_id', data._doc._id)

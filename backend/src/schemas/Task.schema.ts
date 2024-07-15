@@ -16,7 +16,10 @@ export class Task {
     user_id: string;
 
     @Prop({ required: true })
-    color: string
+    color: string;
+
+    @Prop({required: false})
+    hashtags : string[];
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task)

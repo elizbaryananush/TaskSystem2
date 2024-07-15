@@ -10,6 +10,7 @@ export class TasksController {
         header: string,
         context: string,
         status: string,
+        hashtags: string[],
         user_id: string,
         color: string
     }) {
@@ -17,6 +18,7 @@ export class TasksController {
             body.header,
             body.context,
             body.status,
+            body.hashtags,
             body.user_id,
             body.color
         )
@@ -35,17 +37,19 @@ export class TasksController {
     @Post('updateTask')
     async updateTask(@Body() body: {
         _id: string,
-        header?: string,
-        context?: string,
-        status?: string,
-        color?: string
+        header: string,
+        context: string,
+        status: string,
+        color: string,
+        hashtags: string[],
     }) {
         return this.tasksService.updateTask(
             body._id,
             body.header,
             body.context,
+            body.status,
             body.color,
-            body.status
+            body.hashtags,
         )
     }
 

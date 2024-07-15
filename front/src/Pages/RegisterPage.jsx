@@ -30,7 +30,6 @@ function RegisterPage() {
             window.location.href = '/signin'
         }
 
-        console.log(data);
     }
 
     return (

@@ -1,0 +1,40 @@
+.HashtagsPage {
+    width: 50%;
+    min-height: 100vh;
+    margin-left: 15%;
+    position: relative;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+        
+        ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            
+            *{
+                transition: 0s !important;
+            }
+            
+            li{
+                background-color: rgb(255, 231, 255);
+                padding: 7px 10px;
+                font-size: 14px ;
+                font-weight: 600;
+                border-radius: 40px;
+                cursor: pointer;
+                box-shadow: var(--box-shadow2);
+            }
+            
+            .active{
+                border: 3px var(--periwinkle) solid;
+            }
+        }
+
+        .bottom{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 20px;
+        }
+    }

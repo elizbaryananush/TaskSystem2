@@ -23,7 +23,6 @@ function MainPage() {
 
     const data = await response.json();
 
-    console.log(data);
 
     const completed = data.filter(task => task.status === 'completed');
     const uncompleted = data.filter(task => task.status === 'uncompleted');

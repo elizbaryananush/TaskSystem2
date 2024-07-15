@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import '../css/AddNewTask.scss'
 import { TbTag, TbX, TbPalette } from 'react-icons/tb'
+import PalleteWindow from './PalleteWindow'
 
 function AddNewTask({ display, setTaskDisplay }) {
     const [header, setHeader] = useState('')
     const [context, setContext] = useState('')
+    const [palleteDisplay , setPalleteDisplay] = useState('none')
     const color = ['#ffbfbfff', '#ffadadff', '#ffcd8fff', '#fdffb6ff', '#f2f2ffff', '#caffbfff', '#bdb2ffff']
+    const [taskColor , setTaskColor] = useState(Math.floor(Math.random() * color.length))
 
     const handleButtonClick = () => {
         setTaskDisplay('none');
@@ -19,8 +22,9 @@ function AddNewTask({ display, setTaskDisplay }) {
                     header,
                     context,
                     status: 'uncompleted',
+                    hashtags: [],
                     user_id: localStorage.getItem('_id'),
-                    color: color[Math.floor(Math.random() * color.length)]
+                    color: taskColor,
                 }),
                 headers: {
                     'Content-Type': 'application/json',
@@ -36,6 +40,7 @@ function AddNewTask({ display, setTaskDisplay }) {
     return (
         <div style={{ display: display }} className='AddNewTask'>
             <div className="box">
+            <PalleteWindow display={palleteDisplay} setTaskColor={setTaskColor}/>
                 <div className="top">
                     <p>Task</p>
                     <div className="deadline">
@@ -64,8 +69,7 @@ function AddNewTask({ display, setTaskDisplay }) {
                 </div>
                 <div className="bottom">
                     <div className="icons">
-                        <TbTag />
-                        <TbPalette />
+                        <TbPalette onClick={() => palleteDisplay === 'none' ? setPalleteDisplay('flex') : setPalleteDisplay('none')}/>
                     </div>
                     <button onClick={AddNewTask}>Save</button>
                 </div>

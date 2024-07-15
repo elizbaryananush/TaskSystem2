@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../css/Sidebar.scss'
 import { TbArrowBarLeft } from "react-icons/tb";
-import { TbSettings2 } from "react-icons/tb";
-import { TbTags } from "react-icons/tb";
-import { TbHeartBroken } from "react-icons/tb";
-import { TbLayoutDashboard } from "react-icons/tb";
+import { TbTags, TbHeartBroken, TbLayoutDashboard, TbClock } from "react-icons/tb";
 import { NavLink, UNSAFE_DataRouterContext } from 'react-router-dom'
 
 function Sidebar() {
@@ -24,7 +21,6 @@ function Sidebar() {
 
     const data = await response.json();
 
-    console.log(data);
 
     setUserData(data)
   }
@@ -52,17 +48,17 @@ function Sidebar() {
             <TbLayoutDashboard />
             <p>Dashboard</p>
           </NavLink>
-          <NavLink className='listitem' to='/settings'>
-            <TbSettings2 />
-            <p>Settings</p>
-          </NavLink>
           <NavLink className='listitem' to='/hashtags'>
             <TbTags />
             <p>Hashtags</p>
           </NavLink>
+          <NavLink className='listitem' to='/pending'>
+            <TbClock />
+            <p>Pending</p>
+          </NavLink>
           <NavLink className='listitem' to='/canceled'>
             <TbHeartBroken />
-            <p>Canceled Tasks</p>
+            <p>Canceled</p>
           </NavLink>
         </ul>
       </div>

@@ -24,7 +24,7 @@
         }
     }
 
-    button{
+    button {
         width: 25px !important;
         height: 25px !important;
         border-radius: 25px;
@@ -32,9 +32,12 @@
         outline: 0;
         border: 0;
         border: 1px var(--oxford-blue) solid;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    &:active{
+    &:active {
         transform: scale(0.97);
     }
 }

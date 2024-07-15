@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import mongoose from "mongoose";
 
 @Schema()
 export class Task {
@@ -9,7 +10,7 @@ export class Task {
     context?: string;
 
     @Prop({ required: false })
-    completed?: boolean;
+    status?: string;
 
     @Prop({ required: true })
     user_id: string;

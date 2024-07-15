@@ -298,3 +298,30 @@ bootstrap();
 PORT=4100
 MONGO_URL='mongodb+srv://admin:anush123@cluster0.1p9nbfa.mongodb.net/'
 JWT_SECRET='Nobody is coming to save you . Get up'
+
+
+
+
+
+
+
+
+<TbDiamond />
+<TbEyeClosed />
+
+
+/front
+    /node_modules
+    /public
+    /src
+        /assets
+        /components
+            /AddNewTask.jsx
+            /SingleTask.jsx
+        /Pages
+            /Layout.jsx
+            /Mainpage.jsx
+        /providers
+            /Raskprovider.jsx
+        /App.jsx
+        /index.jsx

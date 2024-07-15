@@ -27,7 +27,7 @@ function RegisterPage() {
         if (data.code === 500) {
             alert(data.massage)
         }else{
-            window.location.href = '/'
+            window.location.href = '/signin'
         }
 
         console.log(data);

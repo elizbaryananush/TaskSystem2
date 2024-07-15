@@ -21,8 +21,9 @@ function SignInPage() {
 
 
         if (response.ok) {
-            localStorage.setItem('token' , data.accessToken)
-            // window.location.href = '/'
+            localStorage.setItem('_id', data._doc._id)
+            localStorage.setItem('token', data.accessToken)
+            window.location.href = '/'
         } else {
             alert(data.message);
         }
@@ -48,7 +49,7 @@ function SignInPage() {
 
                     <button onClick={e => submit(e)}>Sign In</button>
                 </form>
-                <a href='/signup'>Don't have an account ?</a>
+                <a href={localStorage.getItem('_id') ? '/signup' : '/'}>Don't have an account ?</a>
             </div>
             <img src={background} alt="Background" />
         </div>

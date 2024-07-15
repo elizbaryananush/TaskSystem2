@@ -1,20 +1,12 @@
 .RightPart {
-    width: 25%;
+    position: fixed;
+    width: 35%;
     padding: 30px;
     padding-left: 0;
     display: flex;
     flex-direction: column;
     gap: 30px;
-
-    --tea-rose: #ffbfbfff;
-    --melon: #ffadadff;
-    --sunset: #ffcd8fff;
-    --cream: #fdffb6ff;
-    --oxford-blue: #04012eff;
-    --magnolia: #f2f2ffff;
-    --white: #ffffffff;
-    --tea-green: #caffbfff;
-    --periwinkle: #bdb2ffff;
+    right: 0;
 
     .addNew {
         height: 100px;

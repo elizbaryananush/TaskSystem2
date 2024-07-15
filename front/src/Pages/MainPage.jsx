@@ -1,29 +1,60 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import SingleTask from '../Components/SingleTask'
 import '../css/MainPage.scss'
+import { TaskContext } from '../providers/TaskProvider'
 
 function MainPage() {
+  const [taskss, setTasks] = useState([])
+  const [completedTasks, setCompletedTasks] = useState([])
+  const [uncompletedTasks, setUnCompletedTasks] = useState([])
+  const [status, setStatus] = useState()
+  const _id = localStorage.getItem('_id')
+
+  const getTasks = async () => {
+    const response = await fetch(`${process.env.REACT_APP_API_PATH}tasks/getTasks`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user_id: `${_id}`
+      }),
+    });
+
+    const data = await response.json();
+
+    console.log(data);
+
+    const completed = data.filter(task => task.status === 'completed');
+    const uncompleted = data.filter(task => task.status === 'uncompleted');
+
+    setCompletedTasks(completed);
+    setUnCompletedTasks(uncompleted);
+
+    return setTasks(data)
+  }
+
+  useEffect(() => {
+    getTasks()
+
+  }, [])
+
   return (
     <div className='MainPage'>
-      {/* <SingleTask backgroundColor='#ffbfbfff'/> */}
       <div className="top component">
         <h2>Progress</h2>
         <div className="bars">
           <div className="progress">
             <p>Completed</p>
-            <p>3</p>
+            <p>{completedTasks.length}</p>
           </div>
           <div className="progress">
-            <p>Pending</p>
-            <p>4</p>
-          </div>
-          <div className="progress">
-            <p>Canceled</p>
-            <p>0</p>
+            <p>Uncompleted</p>
+            <p>{uncompletedTasks.length}</p>
           </div>
           <div className="progress">
             <p>Overall</p>
-            <p>15</p>
+            <p>{taskss ? taskss.length : 0}</p>
           </div>
         </div>
       </div>
@@ -31,26 +62,33 @@ function MainPage() {
         <div className="complete bar component">
           <h4>Uncomplete Tasks</h4>
           <div className="bottom">
-            <SingleTask backgroundColor='#fbffbfff' />
-            <SingleTask backgroundColor='#ffcd8fff' />
-            <SingleTask backgroundColor='#f2f2ffff' />
+            {
+              uncompletedTasks.length >= 1 ? uncompletedTasks.map((item, index) => {
+                return <SingleTask
+                  key={index}
+                  backgroundColor={item.color}
+                  header={item.header}
+                  context={item.context}
+                  id={item._id}
+                  status={item.status} />
+              }) : <p>No uncomplete tasks</p>
+            }
           </div>
         </div>
         <div className="uncomplete bar component">
           <h4>Complete Tasks</h4>
           <div className="bottom">
-            <SingleTask backgroundColor='#bdb2ffff' status={'complete'}/>
-            <SingleTask backgroundColor='#ffadadff' status={'complete'}/>
-            <SingleTask backgroundColor='#bdb2ffff' status={'complete'}/>
-          </div>
-        </div>
-        <div className="pending bar component">
-          <h4>Pending Tasks</h4>
-          <div className="bottom">
-            <SingleTask backgroundColor='#ffcd8fff' />
-            <SingleTask backgroundColor='#fdffb6ff' />
-            <SingleTask backgroundColor='#ffbfbfff' />
-            <SingleTask backgroundColor='#ffffbfff' />
+            {
+              completedTasks.length >= 1 ? completedTasks.map((item, index) => {
+                return <SingleTask
+                  key={index}
+                  backgroundColor={item.color}
+                  header={item.header}
+                  context={item.context}
+                  id={item._id}
+                  status={item.status} />
+              }) : <p>No complete tasks</p>
+            }
           </div>
         </div>
       </div>

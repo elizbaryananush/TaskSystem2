@@ -18,8 +18,14 @@ export class Task {
     @Prop({ required: true })
     color: string;
 
-    @Prop({required: false})
-    hashtags : string[];
+    @Prop({ required: false })
+    hashtags: string[];
+
+    @Prop({ required: false })
+    deadline: Date;
+
+    @Prop({ required: false })
+    priority: number;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task)

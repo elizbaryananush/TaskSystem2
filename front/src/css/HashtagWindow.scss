@@ -3,12 +3,15 @@
     position: absolute;
     z-index: 10;
     bottom: 100px;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-    border-radius: 10px;
-    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background-color: rgb(255, 255, 255);
+    box-shadow: var(--box-shadow2);
+    border-radius: 30px;
+    padding: 15px;
+    gap: 15px;
+    left: 15px;
 
     .topPart {
         display: flex;
@@ -26,19 +29,10 @@
             }
 
             button {
-                height: 40px;
-                width: 50px;
-                background-color: transparent;
-                border: 2px var(--oxford-blue) solid;
-                border-radius: 5px;
-                font-size: 16px;
-                font-weight: 500;
-                cursor: pointer;
-
-                &:hover {
-                    background-color: var(--oxford-blue);
-                    color: white;
-                }
+                height: 39px;
+                width: 50px !important;
+                border: 1px gray solid;
+                border-radius: 0px;
             }
         }
 
@@ -81,21 +75,7 @@
         }
     }
 
-    .submit {
-        width: 100%;
-        height: 40px;
-        position: relative;
-        border: 2px var(--oxford-blue) solid;
-        border-radius: 5px;
-        background-color: transparent;
-        color: var(--oxford-blue);
-        font-size: 18px;
-        font-weight: 500;
-        cursor: pointer;
-
-        &:hover {
-            background-color: var(--oxford-blue);
-            color: white;
-        }
+    .button {
+        width: 100% !important;
     }
 }

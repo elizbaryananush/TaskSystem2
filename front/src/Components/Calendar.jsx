@@ -2,20 +2,26 @@ import React, { useContext, useEffect, useState } from 'react';
 import '../css/Calendar.scss';
 import '../css/HashtagWindow.scss'
 import { TaskContext } from '../providers/TaskProvider';
-import { TbFlame, TbTrash, TbTag, TbCheck, TbClock, TbX } from 'react-icons/tb';
+import { TbFlame, TbTrash, TbTag, TbCheck, TbClock, TbX, TbPalette } from 'react-icons/tb';
+import DeadlineWindow from './DeadlineWindow';
+import PaletteWindow from './PaletteWindow';
 
 function Calendar() {
   const { selectedTaskId } = useContext(TaskContext);
   const [task, setTask] = useState('')
-  const [header, setHeader] = useState()
-  const [context, setContext] = useState()
-  const [color, setColor] = useState()
-  const [priority, setPriority] = useState()
-  const [status, setStatus] = useState()
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [display, setDisplay] = useState('none')
   const [hashtags, setHashtags] = useState([])
+  const [header, setHeader] = useState('')
+  const [context, setContext] = useState('')
+  const [color, setColor] = useState('')
+  const [priority, setPriority] = useState(3)
+  const [status, setStatus] = useState('')
   const [hashtag, setHashtag] = useState('')
+  const [deadline, setDeadline] = useState();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [display, setDisplay] = useState(false)
+  const [deadlineWDisplay, setDeadlineWDisplay] = useState(false);
+  const [palette, setPalette] = useState(false);
+  const [priorityWindow, setPriorityWindow] = useState(false);
 
   const GetTask = async () => {
     const response = await fetch(`${process.env.REACT_APP_API_PATH}tasks/getTask`, {
@@ -35,7 +41,8 @@ function Calendar() {
     setColor(data.color)
     setStatus(data.status)
     setHashtags(data.hashtags)
-
+    setDeadline(data.deadline)
+    setPriority(data.priority)
     setTask(data)
   }
 
@@ -50,6 +57,8 @@ function Calendar() {
           status: status,
           color: color,
           hashtags: hashtags,
+          deadline: deadline,
+          priority: priority
         }),
         headers: {
           'Content-type': 'application/json'
@@ -65,10 +74,14 @@ function Calendar() {
     }
   }
 
-  const toggleDropdown = (e) => {
-    e.stopPropagation()
-    setShowDropdown(!showDropdown);
-  };
+  const handleWindowOpening = (setThisWindow, thisWindow) => {
+    setDeadlineWDisplay(false)
+    setShowDropdown(false)
+    setDisplay(false)
+    setPalette(false)
+    setPriorityWindow(false)
+    setThisWindow(!thisWindow)
+  }
 
   const deleteTask = async () => {
     const response = await fetch(`${process.env.REACT_APP_API_PATH}tasks/deleteTask`, {
@@ -86,8 +99,10 @@ function Calendar() {
 
   const addHashtags = (e) => {
     e.preventDefault();
-    setHashtags([...hashtags, hashtag])
-    setHashtag('')
+    if (hashtag !== '') {
+      setHashtags([...hashtags, hashtag])
+      setHashtag('')
+    }
   }
 
   const deleteHashtag = (indexNum) => {
@@ -103,7 +118,17 @@ function Calendar() {
   return (
     <div className='Calendar'>
       {selectedTaskId !== '' ? <>
-        <div style={{ display: display }} className="hashtagWindow">
+        <DeadlineWindow
+          display={deadlineWDisplay}
+          setDisplay={setDeadlineWDisplay}
+          deadline={deadline}
+          setDeadline={setDeadline} />
+        <PaletteWindow
+          display={palette}
+          color={color}
+          setTaskColor={setColor}
+        />
+        <div style={display ? { display: 'flex' } : { display: 'none' }} className="hashtagWindow">
           <div className="topPart">
             <form>
               <input
@@ -112,11 +137,11 @@ function Calendar() {
                 placeholder="hashtags..."
                 type="text"
               />
-              <button onClick={(e) => addHashtags(e)}>ok</button>
+              <button className='button' onClick={(e) => addHashtags(e)}>ok</button>
             </form>
             <div className="hashtags">
               {
-                hashtags ? <div className="allhashtags">
+                hashtags.length > 0 ? <div className="allhashtags">
                   {
                     hashtags.map((item, index) => {
                       return <div key={index} className="single">
@@ -136,10 +161,10 @@ function Calendar() {
               }
             </div>
           </div>
-          <button className="submit" onClick={() => setDisplay('none')}> Submit</button >
+          <button className="button" onClick={() => setDisplay(false)}> Submit</button >
         </div>
         <div className="top">
-          <div onClick={(e) => toggleDropdown(e)} className="circle">
+          <div onClick={(e) => handleWindowOpening(setShowDropdown, showDropdown)} className="circle">
             {status === 'completed' && <TbCheck />}
             {status === 'pending' && <TbClock />}
             {status === 'canceled' && <TbX />}
@@ -151,37 +176,53 @@ function Calendar() {
             </select>
             }
           </div>
-          <TbFlame />
+          <div className="deadline">
+            <p>Deadline</p>
+            <p onClick={() => handleWindowOpening(setDeadlineWDisplay, deadlineWDisplay)}>{deadline !== '1970-01-01T00:00:00.000Z' && deadline ? deadline.substring(0, 10) : 'Change Deadline'}</p>
+          </div>
+          <div className="priority">
+            <TbFlame strokeWidth={priority !== 0 ? '0' : null} fill={priority === 3 ? 'red' : priority === 2 ? 'yellow' : priority === 1 ? 'blue' : priority === 0 ? 'none' : null} onClick={() => handleWindowOpening(setPriorityWindow, priorityWindow)} />
+            {priorityWindow && <select onClick={e => e.stopPropagation()} value={priority} onChange={e => setPriority(parseInt(e.target.value, 10))}>
+              <option value={3}>High</option>
+              <option value={2}>Medium</option>
+              <option value={1}>Low</option>
+              <option value={0}>None</option>
+            </select>}
+          </div>
         </div>
         <div className="middle">
           <textarea
             spellCheck="false"
-            rows={1}
             value={header}
             onChange={e => setHeader(e.target.value)}
             placeholder='Type Something ... '
           ></textarea>
           <textarea
             spellCheck="false"
-            rows={1}
             value={context}
             onChange={e => setContext(e.target.value)}
             placeholder='Type...'
           ></textarea>
           <div className="hashtags">
             {
-              display === 'none' && hashtags && hashtags.map((item, index) => {
+              !display && hashtags && hashtags.map((item, index) => {
                 return <p key={index}>{item}</p>
               })
+            }
+            {
+              !display && <p className='add' onClick={() => handleWindowOpening(setDisplay, display)}>+</p>
             }
           </div>
         </div>
         <div className="bottom">
           <div className="icons">
-            <TbTag onClick={() => display === 'none' ? setDisplay('flex') : setDisplay('none')} />
+            <TbTag onClick={() => handleWindowOpening(setDisplay, display)} />
             <TbTrash onClick={deleteTask} />
+            <TbPalette
+              onClick={() => handleWindowOpening(setPalette, palette)}
+            />
           </div>
-          <button onClick={updateTask}>save</button>
+          <button className='button' onClick={updateTask}>Save</button>
         </div>
       </> : <div className='box'>No task selected</div>}
     </div>

@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
+import '../css/PaletteWindow.scss'
 
-function PalleteWindow({ display, setTaskColor }) {
+function PaletteWindow({ display, color, setTaskColor }) {
   const colors = ['#ffbfbfff', '#ffadadff', '#ffcd8fff', '#fdffb6ff', '#f2f2ffff', '#caffbfff', '#bdb2ffff']
-  const [activeColor, setActiveColor] = useState();
+  const [activeColor, setActiveColor] = useState(color);
 
   const handleClick = (item) => {
     setTaskColor(item)
     setActiveColor(item)
   }
+
   return (
-    <div style={{ display: display }} className='PalleteWindow'>
+    <div style={display ? { display: 'flex' } : { display: 'none' }} className='PaletteWindow'>
       <p>Colors</p>
       <div className="colors">
         {colors.map((item, index) => {
@@ -25,4 +27,4 @@ function PalleteWindow({ display, setTaskColor }) {
   )
 }
 
-export default PalleteWindow
+export default PaletteWindow

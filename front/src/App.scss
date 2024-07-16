@@ -44,3 +44,27 @@ li {
     box-shadow: var(--box-shadow);
     border-radius: 30px;
 }
+
+.button {
+    height: 40px;
+    width: 100px;
+    border-radius: 15px;
+    border: 0;
+    background: linear-gradient(45deg, var(--periwinkle), var(--melon), var(--sunset));
+    font-size: 18px;
+    color: white;
+    font-weight: 600;
+    box-shadow: var(--var-shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1.03);
+    }
+
+    &:active {
+        transform: scale(0.96);
+    }
+}

@@ -8,20 +8,16 @@ export class TasksService {
     constructor(@InjectModel('Task') private taskModel: Model<Task>) { }
 
     async createNewTask(
-        header: string,
-        context: string,
-        status: string,
-        hashtags: string[],
-        user_id: string,
-        color: string
-    ) {
+        header: string, context: string, status: string, hashtags: string[], user_id: string, color: string, deadline: Date, priority: number) {
         const task = new this.taskModel({
             header,
             context,
             status,
             hashtags,
             user_id,
-            color
+            color,
+            deadline,
+            priority
         })
         return await task.save()
     }
@@ -35,13 +31,7 @@ export class TasksService {
     }
 
     async updateTask(
-        _id: string,
-        header: string,
-        context: string,
-        status: string,
-        color: string,
-        hashtags: string[]
-    ): Promise<any> {
+        _id: string, header: string, context: string, status: string, color: string, hashtags: string[], deadline: Date, priority: number): Promise<any> {
         if (!mongoose.Types.ObjectId.isValid(_id)) {
             throw new Error('Invalid task ID format');
         } else {
@@ -50,7 +40,9 @@ export class TasksService {
                 context: context,
                 status: status,
                 color: color,
-                hashtags: hashtags
+                hashtags: hashtags,
+                deadline: deadline,
+                priority: priority
             }, { new: true }).exec()
         }
     }

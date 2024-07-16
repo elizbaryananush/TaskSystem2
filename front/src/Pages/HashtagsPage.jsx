@@ -5,7 +5,7 @@ import SingleTask from '../Components/SingleTask'
 function HashtagsPage() {
   const _id = localStorage.getItem('_id')
   const [allData, setAllData] = useState([])
-  const [hashtags, setHashtags] = useState();
+  const [hashtags, setHashtags] = useState([]);
   const [dataByHashtag, setDataByHashtag] = useState([])
   const [activeHashtag, setActiveHashtag] = useState()
 
@@ -49,26 +49,30 @@ function HashtagsPage() {
 
   return (
     <div className='HashtagsPage'>
-      <ul className="top">
+      {hashtags.length > 0 ? <ul className="top">
         {
           hashtags && activeHashtag && hashtags.map((item, index) => {
             return <li onClick={() => setActiveHashtag(item)} className={activeHashtag === item ? 'active' : null} key={index}>{item}</li>
           })
         }
-      </ul>
-      <div className="bottom">
-        {
-          dataByHashtag && dataByHashtag.map((item, index) => {
-            return <SingleTask
-            key={index}
-            backgroundColor={item.color}
-            header={item.header}
-            context={item.context}
-            id={item._id}
-            status={item.status} />
-          })
-        }
-      </div>
+      </ul> : null}
+      {
+        hashtags.length > 0 ? <div className="bottom">
+          {
+            dataByHashtag && dataByHashtag.map((item, index) => {
+              return <SingleTask
+                key={index}
+                backgroundColor={item.color}
+                header={item.header}
+                context={item.context}
+                id={item._id}
+                status={item.status} />
+            })
+          }
+        </div> : <div className="noStatus">
+          <p>No Hashtags</p>
+        </div>
+      }
     </div>
   )
 }

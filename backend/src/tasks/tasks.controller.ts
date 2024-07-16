@@ -12,7 +12,9 @@ export class TasksController {
         status: string,
         hashtags: string[],
         user_id: string,
-        color: string
+        color: string,
+        deadline: Date,
+        priority : number
     }) {
         return this.tasksService.createNewTask(
             body.header,
@@ -20,7 +22,9 @@ export class TasksController {
             body.status,
             body.hashtags,
             body.user_id,
-            body.color
+            body.color,
+            body.deadline,
+            body.priority
         )
     }
 
@@ -42,6 +46,8 @@ export class TasksController {
         status: string,
         color: string,
         hashtags: string[],
+        deadline: Date,
+        priority: number
     }) {
         return this.tasksService.updateTask(
             body._id,
@@ -50,6 +56,8 @@ export class TasksController {
             body.status,
             body.color,
             body.hashtags,
+            body.deadline,
+            body.priority
         )
     }
 

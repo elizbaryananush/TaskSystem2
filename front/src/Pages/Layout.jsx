@@ -10,7 +10,7 @@ import PendingPage from './PendingPage';
 import CanceledPage from './CanceledPage';
 
 function Layout() {
-    const [taskDisplay, setTaskDisplay] = useState('none');
+    const [taskDisplay, setTaskDisplay] = useState(false);
 
     return (
         <TaskProvider>

@@ -130,4 +130,4 @@ Contributions are welcome! Please fork the repository and create a pull request 
 5. Push to the branch (git push origin feature-branch).
 6. Create a pull request.
 
-Don't change main directory !!!
+Don't change main branch !!!
